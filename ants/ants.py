@@ -460,7 +460,7 @@ class QueenAnt(ScubaThrower):  # You should change this line
 
     name = 'Queen'
     # BEGIN Problem 13
-    implemented = False   # Change to True to view in the GUI
+    implemented = True   # Change to True to view in the GUI
     food_cost = 7 
     armor = 1  
     true_queen = 1 #属性true_queen是类属性，一旦发生修改，对于所有实例生效
