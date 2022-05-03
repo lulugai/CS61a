@@ -27,6 +27,10 @@ def repeated(f, n, x):
     True
     """
     "*** YOUR CODE HERE ***"
+    while n > 0:
+        x = f(x)
+        n -= 1
+    return x 
 
 def sum_digits(n):
     """Sum all the digits of n.
@@ -39,6 +43,12 @@ def sum_digits(n):
     45
     """
     "*** YOUR CODE HERE ***"
+    ret = 0
+    while n >= 10:
+        num = n % 10
+        ret += num 
+        n = n // 10
+    return ret + n 
 
 def double_eights(n):
     """Return true if n has two eights in a row.
@@ -56,3 +66,23 @@ def double_eights(n):
     False
     """
     "*** YOUR CODE HERE ***"
+    # if n < 10:
+    #     return False
+    # pre_flag = False
+    # while n >= 10:
+    #     num = n % 10 
+    #     if num == 8:
+    #         if pre_flag:
+    #             return True 
+    #         else:
+    #             pre_flag = True 
+    #     else:
+    #         pre_flag = False
+    #     n = n // 10
+    # return n == 8 and pre_flag
+
+    while n > 10:
+        if n % 100 == 88:
+            return True
+        n //= 10
+    return False
