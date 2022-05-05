@@ -31,6 +31,15 @@ def cycle(f1, f2, f3):
     19
     """
     "*** YOUR CODE HERE ***"
+    funs = [f1, f2, f3]
+    def func0(n):
+        def func1(x):
+            if n == 0:
+                return x
+            return funs[(n-1)%3](func0(n-1)(x))
+
+        return func1
+    return func0
 
 ## Lambda expressions
 
@@ -49,9 +58,9 @@ def is_palindrome(n):
     True
     """
     x, y = n, 0
-    f = lambda: _____
+    f = lambda: y * 10 + x % 10
     while x > 0:
-        x, y = _____, f()
+        x, y = x // 10, f()
     return y == n
 
 ## More recursion practice
@@ -64,8 +73,8 @@ def skip_mul(n):
     >>> skip_mul(8) # 8 * 6 * 4 * 2
     384
     """
-    if n == 2:
-        return 2
+    if n == 2 or n == 1:
+        return n
     else:
         return n * skip_mul(n - 2)
 
@@ -80,6 +89,23 @@ def is_prime(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    # cnt = 0
+    # def helper(n, i):
+    #     nonlocal cnt
+    #     if i > n: return
+    #     if n % i == 0:
+    #         cnt += 1
+    #     helper(n, i+1)
+
+    # helper(n, 1)
+    # return cnt == 2
+    def is_prime_helper(n, k):
+        if n == k:
+            return True
+        if n % k == 0:
+            return False
+        return is_prime_helper(n, k+1)
+    return is_prime_helper(n, 2)
 
 def interleaved_sum(n, odd_term, even_term):
     """Compute the sum odd_term(1) + even_term(2) + odd_term(3) + ..., up
@@ -90,6 +116,17 @@ def interleaved_sum(n, odd_term, even_term):
     29
     """
     "*** YOUR CODE HERE ***"
+    def helper(i, odd_term, even_term, odd_flag):
+        if i == n:
+            if odd_flag: return odd_term(i)
+            else: return even_term(i)
+        if odd_flag:
+            total = odd_term(i)
+        else:
+            total = even_term(i)
+        return total + helper(i+1, odd_term, even_term, not odd_flag)
+
+    return helper(1, odd_term, even_term, True)
 
 def ten_pairs(n):
     """Return the number of ten-pairs within positive integer n.
@@ -102,3 +139,11 @@ def ten_pairs(n):
     6
     """
     "*** YOUR CODE HERE ***"
+    # def helper(n, k):
+    #     if n < 10:
+    #         return n == k
+    #     return helper(n // 10, k) + (n % 10 == k)
+    
+    # if n < 10:
+    #     return 0
+    # return ten_pairs(n // 10) + helper(n // 10, 10 - n % 10)
