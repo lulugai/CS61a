@@ -7,6 +7,9 @@ def map(fn, seq):
     [1, 4, 9]
     """
     "*** YOUR CODE HERE ***"
+    for i, v in enumerate(seq):
+        seq[i] = fn(v)
+    return seq
 
 def filter(pred, seq):
     """Keeps elements in seq only if they satisfy pred.
@@ -15,6 +18,11 @@ def filter(pred, seq):
     [2, 4]
     """
     "*** YOUR CODE HERE ***"
+    ret = []
+    for v in seq:
+        if pred(v):
+            ret.append(v)
+    return ret
 
 def reduce(combiner, seq):
     """Combines elements in seq using combiner.
@@ -27,6 +35,12 @@ def reduce(combiner, seq):
     4
     """
     "*** YOUR CODE HERE ***"
+    if len(seq) == 1:
+        return seq[0]
+    ret = seq[0]
+    for v in seq[1:]:
+        ret = combiner(ret, v)
+    return ret
 
 # Q3
 def acorn_finder(t):
@@ -44,7 +58,14 @@ def acorn_finder(t):
     False
     """
     "*** YOUR CODE HERE ***"
-
+    if label(t) == 'acorn':
+        return True
+    if not is_leaf(t):
+        bras = branches(t)
+        for b in bras:
+            if acorn_finder(b):
+                return True
+    return False
 # Q4
 def replace_leaf(t, old, new):
     """Returns a new tree where every leaf value equal to old has
@@ -76,6 +97,20 @@ def replace_leaf(t, old, new):
     True
     """
     "*** YOUR CODE HERE ***"
+    # ret = copy_tree(t)
+    # def helper(ret, old, new):
+    #     if is_leaf(ret):
+    #         if label(ret) == old:
+    #             ret[0] = new
+    #     else:
+    #         for b in branches(ret):
+    #             helper(b, old, new)
+    
+    # helper(ret, old, new)
+    # return ret
+    if is_leaf(t) and label(t) == old:
+        return tree(new)
+    return tree(label(t), [replace_leaf(b, old, new) for b in branches(t)])
 
 # Tree ADT
 def tree(label, branches=[]):
