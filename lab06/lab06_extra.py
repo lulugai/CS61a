@@ -20,3 +20,10 @@ def vending_machine(snacks):
     'chocolate'
     """
     "*** YOUR CODE HERE ***"
+    cnt = 0
+    len_s = len(snacks)
+    def helper():
+        nonlocal cnt
+        cnt += 1
+        return snacks[(cnt-1) % len_s]
+    return helper
