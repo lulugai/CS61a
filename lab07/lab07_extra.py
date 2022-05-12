@@ -18,7 +18,14 @@ def remove_all(link , value):
     <0 1>
     """
     "*** YOUR CODE HERE ***"
-
+    pre = link  
+    cur = link.rest
+    while cur != Link.empty:
+        if cur.first == value:
+            pre.rest = cur.rest
+        else:
+            pre = cur 
+        cur = cur.rest 
 # Q7
 def deep_map_mut(fn, link):
     """Mutates a deep link by replacing each item found with the
@@ -33,6 +40,14 @@ def deep_map_mut(fn, link):
     <9 <16> 25 36>
     """
     "*** YOUR CODE HERE ***"
+    if link == Link.empty:
+        return
+    else:
+        if isinstance(link.first, Link):
+            deep_map_mut(fn, link.first)
+        else:
+            link.first = fn(link.first)
+        deep_map_mut(fn, link.rest)
 
 # Q8
 def has_cycle(link):
@@ -50,6 +65,15 @@ def has_cycle(link):
     False
     """
     "*** YOUR CODE HERE ***"
+    fast, slow = link, link
+    while fast != Link.empty:
+        if fast.rest == Link.empty:
+            return False
+        fast = fast.rest.rest
+        if fast == slow:
+            return True
+        slow = slow.rest 
+    return False 
 
 def has_cycle_constant(link):
     """Return whether link contains a cycle.
@@ -63,7 +87,15 @@ def has_cycle_constant(link):
     False
     """
     "*** YOUR CODE HERE ***"
-
+    fast, slow = link, link
+    while fast != Link.empty:
+        if fast.rest == Link.empty:
+            return False
+        fast = fast.rest.rest
+        if fast == slow:
+            return True
+        slow = slow.rest 
+    return False 
 # Q9
 def reverse_other(t):
     """Mutates the tree such that nodes on every other (even_indexed) level
@@ -79,3 +111,31 @@ def reverse_other(t):
     Tree(1, [Tree(8, [Tree(3, [Tree(5), Tree(4)]), Tree(6, [Tree(7)])]), Tree(2)])
     """
     "*** YOUR CODE HERE ***"
+    # def helper(t, level):
+    #     if t.is_leaf():
+    #         return
+
+    #     if level % 2 == 1:
+    #         for b in t.branches:
+    #             helper(b, level + 1)
+    #     else:
+    #         n = len(t.branches)
+    #         tmp = []
+    #         for i in range(n):
+    #             tmp.append(t.branches[i].label)
+    #         for i in range(n):
+    #             t.branches[i].label = tmp[n-i-1]
+    #             helper(t.branches[i], level+1)
+
+    # helper(t, 0)
+    def reverse(t, flag):
+        if t.is_leaf():
+            return 
+        if flag:
+            n = len(t.branches)
+            for i in range(n // 2):
+                t.branches[i].label, t.branches[n-i-1].label = t.branches[n-i-1].label, t.branches[i].label
+        for b in t.branches:
+            reverse(b, 1-flag)
+   
+    reverse(t, 1)
