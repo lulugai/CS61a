@@ -16,7 +16,19 @@ def deep_len(lnk):
     5
     """
     "*** YOUR CODE HERE ***"
-
+    cnt = 0
+    def helper(lnk):
+        nonlocal cnt
+        if isinstance(lnk.first, Link):
+            helper(lnk.first) 
+        else:
+            cnt += 1
+        if lnk.rest != Link.empty:
+            helper(lnk.rest)
+    
+    helper(lnk)
+    return cnt
+    
 # Link class
 class Link:
     """A linked list.
