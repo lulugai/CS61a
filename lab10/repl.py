@@ -31,3 +31,5 @@ if __name__ == '__main__':
         except (KeyboardInterrupt, EOFError):  # Ctrl-C, Ctrl-D
             print()  # blank line
             break  # exit while loop (and end program)
+        except (OverflowError, ZeroDivisionError) as e:
+            print(type(e).__name__ + ':', e)

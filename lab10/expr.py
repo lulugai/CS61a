@@ -110,6 +110,10 @@ class Name(Expr):
         Exception raised!
         """
         "*** YOUR CODE HERE ***"
+        if self.string in env:
+            return env[self.string]
+
+        raise NameError('The name: {} is not defined.'.format(self.string))
 
     def __str__(self):
         return self.string
@@ -176,6 +180,9 @@ class CallExpr(Expr):
         Number(14)
         """
         "*** YOUR CODE HERE ***"
+        operator = self.operator.eval(env)
+        operands = [v.eval(env) for v in self.operands]
+        return operator.apply(operands)
 
     def __str__(self):
         function = str(self.operator)
@@ -286,6 +293,10 @@ class LambdaFunction(Value):
             raise TypeError("Cannot match parameters {} to arguments {}".format(
                 comma_separated(self.parameters), comma_separated(arguments)))
         "*** YOUR CODE HERE ***"
+        parent = self.parent.copy()
+        for i in range(len(arguments)):
+            parent.update({self.parameters[i]: arguments[i]})
+        return self.body.eval(parent)
 
     def __str__(self):
         definition = LambdaExpr(self.parameters, self.body)
