@@ -17,6 +17,13 @@ def hailstone(n):
     1
     """
     "*** YOUR CODE HERE ***"
+    while True:
+        yield n
+        if n == 1: break
+        if n%2 == 0:
+            n = n // 2
+        else:
+            n = 3 * n + 1
 
 # Q6
 def repeated(t, k):
@@ -32,6 +39,17 @@ def repeated(t, k):
     """
     assert k > 1
     "*** YOUR CODE HERE ***"
+    t = iter(t)
+    prev = next(t)
+    cnt = 1
+    for cur in t:
+        if cur == prev:
+            cnt += 1
+            if cnt == k:
+                return cur
+        else:
+            cnt = 1
+            prev = cur
 
 # Q7
 def merge(s0, s1):
@@ -54,6 +72,23 @@ def merge(s0, s1):
     i0, i1 = iter(s0), iter(s1)
     e0, e1 = next(i0, None), next(i1, None)
     "*** YOUR CODE HERE ***"
+    while e0 != None or e1 != None:
+        if e0 is None:
+            yield e1
+            e1 = next(i1, None)
+        elif e1 is None:
+            yield e0
+            e0 = next(i0, None)
+        elif e0 > e1:
+            yield e1
+            e1 = next(i1, None)
+        elif e0 < e1:
+            yield e0
+            e0 = next(i0, None)
+        elif e0 == e1:
+            yield e0
+            e0 = next(i0, None)
+            e1 = next(i1, None)
 
 # Q8
 def remainders_generator(m):
@@ -79,6 +114,13 @@ def remainders_generator(m):
     11
     """
     "*** YOUR CODE HERE ***"
+    def inner(i):
+        while True:
+            yield i
+            i += m
+
+    for i in range(m):
+        yield inner(i)
 
 # Q9
 def zip_generator(*iterables):
@@ -94,3 +136,9 @@ def zip_generator(*iterables):
     [2, 5, 8]
     """
     "*** YOUR CODE HERE ***"
+    itors = [iter(it) for it in iterables]
+    while True:
+        try:
+            yield [next(it) for it in itors]
+        except StopIteration:
+            break
