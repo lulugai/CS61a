@@ -20,3 +20,20 @@ def permutations(lst):
         yield []
         return
     "*** YOUR CODE HERE ***"
+    ret = []
+    def recursive(cur_lst, r_lst):
+        nonlocal ret
+        if r_lst == []:
+            ret.append(cur_lst.copy())
+            return 
+        for i in range(len(r_lst)):
+            cur_lst.append(r_lst[i])
+            a = r_lst.pop(i)
+            recursive(cur_lst, r_lst)
+            cur_lst.pop()
+            r_lst.insert(i, a)
+    
+    lst = list(lst)
+    recursive([], lst)
+    for v in ret:
+        yield v
